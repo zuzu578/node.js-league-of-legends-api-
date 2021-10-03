@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div class="main_contents">
+
+    <h1> 결과 </h1>
+    <input type="text" name="summonerName" value=" <%=summonerName%>" id="summonerName">
+ 
+ 
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const app = new Vue({
+        el: '.main_contents',
+        data:{
+            accountId:'',
+            name:'',
+            profileIconId:'',
+            puuid:'',
+            revisionDate:'',
+            summonerLevel:'',
+            id:'',
+            leaguePoints:'',
+            losses:'',
+            queueType:'',
+            rank:'',
+            tier:'',
+            win:'',
+            banChampions:[],
+            baron:[],
+           
+
+        },
+        mounted(){
+            var summonerName = document.getElementById("summonerName").value;
+                //해당 소환사의 이름을 통해 소환사의 정보를 얻어옵니다.
+                axios.get('/getDataListBysummonerName',{
+                 params:{
+                 summonerName : summonerName,
+                }
+            })
+            .then((res)=>{
+            
+            this.accountId = res.data.accountId;
+            this.name = res.data.name;
+            this.profileIconId = res.data.profileIconId;
+            this.puuid = res.data.puuid;  
+            this.revisionDate = res.data.revisionDate;
+            this.id = res.data.id; // ex) : QJJvQmbVJnkBjqoZaJ3uok86sjhbiGqqS2Fk7Hh-C13_NSQ
+            this.summonerLevel = res.data.summonerLevel;
+            // 소환사의 encrypted id 를 통해 소환사의 리그 정보를 가져옵니다.
+                axios.get('/getSummonerRankById',{
+                 params:{
+                    id : this.id,
+                 }
+             })
+             .then((res)=>{
+                 
+                 for(let i = 0 ; i < Object.keys(res.data).length; i++){
+                    
+                    this.leaguePoints = res.data[i].leaguePoints;
+                    this.losses = res.data[i].losses;
+                    this.queueType = res.data[i].queueType;
+                    this.rank = res.data[i].rank;
+                    this.tier = res.data[i].tier;
+                    this.wins = res.data[i].wins;
+                    
+                    
+                 }
+             })
+
+            // 소환사의 puuid 를 통해 match id list 를 가져옵니다.
+                axios.get('/getMatchIdListByPuuId',{
+                 params:{
+                    puuid : this.puuid,
+                 }
+             })
+             .then((res)=>{
+               
+                //가져온 match id list 를 기준으로 해당 id 에 대한 매치 정보들을 가져옵니다. 
+                for(let i = 0 ; i < Object.keys(res.data).length; i++){
+                    
+                    axios.get('/getMatchListByMatchIds',{
+                     params:{
+                        matchIds : res.data[i],
+                    }
+                    })
+                    .then((res)=>{
+                        //console.log(res.data.info);
+                        // 팀 오브젝트 정보 
+                        for(var i = 0 ; i < Object.keys(res.data.info.teams).length; i++){
+                            console.log(res.data.info.teams[i].objectives)
+                            
+                            this.baron.push(res.data.info.teams[i].objectives.baron.kills);
+                            
+                            // 팀 밴정보 
+                            for(var j = 0 ; j < Object.keys(res.data.info.teams[i].bans).length ; j++){
+                                this.banChampions.push(res.data.info.teams[i].bans[j].championId);
+                                
+                            }
+                            
+                            
+                        }
+
+                    });
+
+                }
+             });
+
+           });
+        },
+        created(){
+
+        },
+        methods:{
+
+        },
+
+        
+
+    })
+
+
+
+</script>
+
+</html>
