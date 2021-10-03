@@ -20,7 +20,7 @@ app.get('/',function(req,res){
 
 app.get('/result',function(req,res){
     //request get parameter
-    // 받아온 parameter 를 리터럴화 
+    // 받아온 parameter 를 리터럴화 : https://stackoverflow.com/questions/61380886/cannot-create-property-locals-on-string
     var u_name = {
         u_name:req.param('u_name')
     };  
