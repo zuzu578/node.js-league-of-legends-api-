@@ -170,7 +170,7 @@
 
 
 
-
+//test code 
         /*
         app.get('/result',function(req,res){
             //request get parameter
