@@ -8,6 +8,11 @@
 </head>
 <body>
    <div class="main_contents">
+       <div class="date" v-for="(data, idx) in realGameCreation" :key="idx">
+
+        {{realGameCreation[idx]}}
+
+       </div>
 
     <h1> 결과 </h1>
     <input type="text" name="summonerName" value=" <%=summonerName%>" id="summonerName">
@@ -37,6 +42,18 @@
             win:'',
             banChampions:[],
             baron:[],
+            summonerName:'',
+            matchListSummonerName:[], // 전적검색시 list로 출력되는 소환사 이름 
+            championName:[], //전적검색시 나오는 챔피언 list 
+            gameCreation:[], // 게임 날짜 ( 생성일 )
+            realGameCreation:[],// 게임날짜 ( 가공 + 정렬 작업 )
+            champLevel:[], //소환사 레벨 
+            deaths:[],// kill
+            kills:[], // death
+            assists:[], // assists
+            items:[], // 아이템 
+            win:[], // 승패 여부 
+           
            
 
         },
@@ -49,7 +66,7 @@
                 }
             })
             .then((res)=>{
-            
+           
             this.accountId = res.data.accountId;
             this.name = res.data.name;
             this.profileIconId = res.data.profileIconId;
@@ -57,6 +74,7 @@
             this.revisionDate = res.data.revisionDate;
             this.id = res.data.id; // ex) : QJJvQmbVJnkBjqoZaJ3uok86sjhbiGqqS2Fk7Hh-C13_NSQ
             this.summonerLevel = res.data.summonerLevel;
+            this.summonerName = res.data.name
             // 소환사의 encrypted id 를 통해 소환사의 리그 정보를 가져옵니다.
                 axios.get('/getSummonerRankById',{
                  params:{
@@ -95,8 +113,46 @@
                     }
                     })
                     .then((res)=>{
+                       // console.log(res.data.info);
+                        //console.log(res.data.info.gameCreation); // 게임 생성된 날짜 ( 플레이한 날짜 )
+                        var timestamp = res.data.info.gameCreation;
+                        var date = new Date(timestamp);                      
+                        //게임 날짜 정렬 
+                        this.gameCreation.push(date);
+                        this.realGameCreation.push(String(date).replace("GMT+0900 (한국 표준시)",""));
+                        // 검색한 , 해당 소환사의 데이터를 filter 하기 위한 로직! 
+                        
+                        for(var i = 0 ; i < Object.keys(res.data.info.participants).length; i++){
+
+                            //console.log(res.data.info.participants[i]);
+                            // 검색한 유저의 게임 리스트 정보 
+                            // ex) 킬,데스,어시,챔피언이름,승패여부,챔피언레벨,아이템,
+                            if(res.data.info.participants[i].summonerName == this.summonerName){
+                                
+                                console.log(res.data.info.participants[i]);
+                                this.championName.push(res.data.info.participants[i].championName);
+                                this.matchListSummonerName.push(res.data.info.participants[i].summonerName);
+                                this.champLevel.push(res.data.info.participants[i].champLevel);
+                                this.assists.push(res.data.info.participants[i].assists);
+                                this.kills.push(res.data.info.participants[i].kills);
+                                this.deaths.push(res.data.info.participants[i].deaths);
+                                this.items.push(res.data.info.participants[i].item0,res.data.info.participants[i].item1,res.data.info.participants[i].item2,res.data.info.participants[i].item3,res.data.info.participants[i].item4);
+                                this.win.push(res.data.info.participants[i].win);
+                                
+                               
+                                
+                                
+                                
+
+                            }
+                            
+                            
+                        }
+                      
+                        
                         //console.log(res.data.info);
                         // 팀 오브젝트 정보 
+                        /*
                         for(var i = 0 ; i < Object.keys(res.data.info.teams).length; i++){
                             console.log(res.data.info.teams[i].objectives)
                             
@@ -110,6 +166,7 @@
                             
                             
                         }
+                        */
 
                     });
 
