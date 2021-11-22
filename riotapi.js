@@ -1,6 +1,11 @@
+        //const { default: axios } = require('axios');
         const bodyParser = require('body-parser'); // body-parser => get parameter 
         const express = require('express');
         const request = require('request');
+
+        const axios = require('axios'); // axios 사용 
+
+        
         const app = express();
         const server = app.listen(3004,() =>{
             console.log("server start");
@@ -42,7 +47,8 @@
         
             const summonerName = req.param('summonerName')
             console.log('summonerName => ' , summonerName);
-            const url = 'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+encodeURIComponent(summonerName); // encoding! 
+            const url = 'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/'
+            +encodeURIComponent(summonerName); // encoding! 
             const queryParams ='?' + encodeURIComponent('api_key') + '='+apiKey 
             console.log('소환사 정보 params = > ' , queryParams);
             console.log('url + queryParams => ' , url + queryParams);
@@ -146,6 +152,28 @@
 
         });
 
+        /**
+         * @test axios 사용해보기
+         */
+        app.get('/testAxios',async(req , res) => {
+        let data = '';
+        
+        /**/ 
+        //방법 1) 
+          try{
+            await axios.get('https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-fa9c9fe3-8bec-46d0-8f6f-88aab73e8c31')
+            .then((res)=>{
+                data = res.data;
+            })
+          } catch(error){
+              console.log(error);
+          }
+               
+      
+          res.send(data);
+        })
+
+        
 
 
 

@@ -60,12 +60,14 @@
         mounted(){
             var summonerName = document.getElementById("summonerName").value;
                 //해당 소환사의 이름을 통해 소환사의 정보를 얻어옵니다.
+         
                 axios.get('/getDataListBysummonerName',{
                  params:{
                  summonerName : summonerName,
                 }
             })
             .then((res)=>{
+            console.log('소환사정보 ! ',res.data);
            
             this.accountId = res.data.accountId;
             this.name = res.data.name;
