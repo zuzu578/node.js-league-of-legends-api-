@@ -18,4 +18,5 @@ node js 학습을 위해
 # node js 에서 axios 비동기 통신 사용하기 
 
 <img width="1111" alt="스크린샷 2021-11-22 오후 10 12 09" src="https://user-images.githubusercontent.com/69393030/142867651-4453f2a4-e381-44e4-bb4a-12f3ff382e99.png">a
--function 앞에 async 를 쓰게 되면 promise 객체를 return 하게 됩니다. 때문에 promise 객체를 변수에 담아 최종적으로 body 에 send 해주고싶으면 async await 를 사용해주면 됩니다.
+1) 방법1: function 앞에 async 를 쓰게 되면 promise 객체를 return 하게 됩니다. 때문에 promise 객체를 변수에 담아 최종적으로 body 에 send 해주고싶으면 async await 를 사용해주면 됩니다.
+2) 방법2: 
