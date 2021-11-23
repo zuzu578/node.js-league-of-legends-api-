@@ -17,7 +17,7 @@
         app.use(bodyParser.urlencoded({extended : false}));
         app.use(bodyParser.json());
 
-        const apiKey = 'RGAPI-f18a9a01-8515-4428-9ec4-cdabb8cb6fd9'; // 해당 api key 는 유효시간이 있으므로 , 갱신해주어야합니다.
+        const apiKey = 'RGAPI-a4861234-29ff-4931-9e45-320b63a6f6bf'; // 해당 api key 는 유효시간이 있으므로 , 갱신해주어야합니다.
 
         /*
         메인 페이지로 이동합니다.
@@ -154,13 +154,13 @@
         });
 
         /**
-         * @test axios 사용해보기
+         * @test1 axios 사용해보기
+         * CHAMPION-V3 
+         * get rotation-champion List 
          */
-        app.get('/testAxios',async(req , res) => {
+        app.get('/getRotationChampionList',async(req , res) => {
         let data = '';
-        
-        /**/ 
-        //방법 1) 
+    
           try{
             await axios.get('https://kr.api.riotgames.com/lol/platform/v3/champion-rotations',{
                 params:{
@@ -179,6 +179,83 @@
          
         })
 
+        /**
+         * @test2
+         * SUMMONER-V4
+         * get summoner Info
+         */
+        app.get('/getSummonerInfo',async(req , res) =>{
+            //let summonerName = req.param('summonerName');
+            let data = '';
+            let summonerName = "오순도순도란도란";
+            try{
+            /* 방법 1 
+            await axios.get('https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+encodeURIComponent(summonerName)+'',{
+                params:{
+                    api_key:apiKey,
+                }
+            })
+            .then((response)=>{
+              data = response.data;
+              console.log("puuid =>" + data.puuid);
+            })
+            */
+           
+           let obj = '';
+           let summonerPuuid = '';
+           const transaction = await axios.get('https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+encodeURIComponent(summonerName)+'',{
+               params:{
+                   api_key:apiKey,
+               }
+              
+           })
+   
+         // res.send => response를 보내는 역할 알맞게 content_type을 정해줌.
+        //res.send(transaction.data);  
+        // JSON 보낼때
+        //res.json(transaction.data)
+        // puuid 를 기반으로 해당유저의 matchList object 를 가져온다.
+        
+        summonerPuuid = transaction.data.puuid;
+        let jsonObj = [];
+        const getPuuIds = await axios.get('https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/'+encodeURIComponent(summonerPuuid)+'/ids?start=0&count=5',{
+            params:{
+                api_key:apiKey,
+            }
+        })
+
+        // puuIds ==> matchId ==> matchList 
+        for(let i = 0 ; i < getPuuIds.data.length ; i ++){
+            await axios.get('https://asia.api.riotgames.com/lol/match/v5/matches/'+getPuuIds.data[i]+'',{
+                params:{
+                    api_key:apiKey,
+                }
+            })
+            .then((res)=>{
+               // console.log('소환사전적',res.data);
+               // 5개의 매치전적 list object 를 push 한다. 
+               // [{res.data} , {res.data} , {res.data} , {res.data} , {res.data}] 
+                jsonObj.push(res.data);
+            })
+        }
+
+        res.json(jsonObj);
+
+        }catch(error){
+            console.log(error);
+        }
+
+        })
+        // req , res 순서를 지키지 않으면 , res.send is not a function 오류가 발생 
+        app.get('/exampleUrl',(res ,req)=>{
+            let obj = {
+                key:'hello',
+                key2:'world',
+            }
+            res.send(obj);
+
+        })
+       
         
 
 
