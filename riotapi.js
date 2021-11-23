@@ -247,7 +247,7 @@
 
         })
         // req , res 순서를 지키지 않으면 , res.send is not a function 오류가 발생 
-        app.get('/exampleUrl',(res ,req)=>{
+        app.get('/exampleUrl',(req,res)=>{
             let obj = {
                 key:'hello',
                 key2:'world',
