@@ -4,6 +4,7 @@
         const request = require('request');
 
         const axios = require('axios'); // axios 사용 
+        const { initParams } = require('request');
 
         
         const app = express();
@@ -16,7 +17,7 @@
         app.use(bodyParser.urlencoded({extended : false}));
         app.use(bodyParser.json());
 
-        const apiKey = 'RGAPI-360ab637-0712-4ea1-8397-92f24543f52c'; // 해당 api key 는 유효시간이 있으므로 , 갱신해주어야합니다.
+        const apiKey = 'RGAPI-f18a9a01-8515-4428-9ec4-cdabb8cb6fd9'; // 해당 api key 는 유효시간이 있으므로 , 갱신해주어야합니다.
 
         /*
         메인 페이지로 이동합니다.
@@ -161,16 +162,21 @@
         /**/ 
         //방법 1) 
           try{
-            await axios.get('https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-fa9c9fe3-8bec-46d0-8f6f-88aab73e8c31')
+            await axios.get('https://kr.api.riotgames.com/lol/platform/v3/champion-rotations',{
+                params:{
+                    api_key:apiKey,
+                }
+            })
             .then((res)=>{
                 data = res.data;
             })
           } catch(error){
+              console.log("error occured!");
               console.log(error);
-          }
-               
+          } 
       
           res.send(data);
+         
         })
 
         
