@@ -31,6 +31,9 @@ node js 학습을 위해
 
 
 # 주의사항  res.send() is not a function
+-참조
+https://stackoverflow.com/questions/44176021/node-js-res-send-is-not-a-function
+
 <img width="808" alt="스크린샷 2021-11-23 오후 9 57 39" src="https://user-images.githubusercontent.com/69393030/143028092-2dcedc67-d2b1-4ed0-99c1-aee054c3d4d7.png">
 
 app.get('exampleUrl',(req,res) => {
