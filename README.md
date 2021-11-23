@@ -18,4 +18,23 @@ node js 학습을 위해
 # node js 에서 axios 비동기 통신 사용하기 
 
 <img width="1111" alt="스크린샷 2021-11-22 오후 10 12 09" src="https://user-images.githubusercontent.com/69393030/142867651-4453f2a4-e381-44e4-bb4a-12f3ff382e99.png">a
--function 앞에 async 를 쓰게 되면 promise 객체를 return 하게 됩니다. 때문에 promise 객체를 변수에 담아 최종적으로 body 에 send 해주고싶으면 async await 를 사용해주면 됩니다.
+1) 방법1: function 앞에 async 를 쓰게 되면 promise 객체를 return 하게 됩니다. 때문에 promise 객체를 변수에 담아 최종적으로 body 에 send 해주고싶으면 async await 를 사용해주면 됩니다.
+ <img width="808" alt="스크린샷 2021-11-23 오후 9 56 00" src="https://user-images.githubusercontent.com/69393030/143027836-d86fcdd8-b77b-47cb-9165-124e2ee788d1.png">
+2) 방법2: 
+3) const transaction = await axios.get('https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/'+encodeURIComponent(summonerName)+'',{
+               params:{
+                   api_key:apiKey,
+               }
+              
+           })
+ 이런 방식으로도 통신을 할수있습니다. 
+
+
+# 주의사항  res.send() is not a function
+<img width="808" alt="스크린샷 2021-11-23 오후 9 57 39" src="https://user-images.githubusercontent.com/69393030/143028092-2dcedc67-d2b1-4ed0-99c1-aee054c3d4d7.png">
+
+app.get('exampleUrl',(req,res) => {
+
+}) 
+
+이렇게하면 동작을 하지만 반대로 하게 되면(res,req) res.send() is not a function 오류가 발생한다.
