@@ -32,11 +32,11 @@ app.get('/', (req, res) => {
     // 세션값이 있는경우 
     if(req.session.uid) {
         console.log('로그인 되었습니다.')
-        res.render('home.html', { id: req.session.user_id });
+        res.render('test/home.html', { id: req.session.user_id });
     }else{
       // 세션값이 없는경우 
       console.log('로그인 되지않음');
-      res.render('login.html');
+      res.render('test/login.html');
 
     }    
 });
@@ -77,7 +77,7 @@ app.get('/logginedUserOnly',(req,res)=>{
 
     if(req.session.uid){
 
-        res.render('loggingUserOnlyTest.html');
+        res.render('test/loggingUserOnlyTest.html');
 
     }else{
 
