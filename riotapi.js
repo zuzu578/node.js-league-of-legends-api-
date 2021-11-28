@@ -6,6 +6,10 @@
         const axios = require('axios'); // axios 사용 
         const { initParams } = require('request');
 
+        // session 
+        const session = require('express-session');
+        const FileStore = require('session-file-store')(session); // 1
+
         
         const app = express();
         const server = app.listen(3004,() =>{
@@ -17,12 +21,20 @@
         app.use(bodyParser.urlencoded({extended : false}));
         app.use(bodyParser.json());
 
+        app.use(session({  // 2
+            secret: 'keyboard cat',  // 암호화
+            resave: false,
+            saveUninitialized: true,
+            store: new FileStore()
+          }));
+
         const apiKey = 'RGAPI-a4861234-29ff-4931-9e45-320b63a6f6bf'; // 해당 api key 는 유효시간이 있으므로 , 갱신해주어야합니다.
 
         /*
         메인 페이지로 이동합니다.
         */
         app.get('/',function(req,res){
+            console.log(req.session);
             res.render('home.html');
         });
 

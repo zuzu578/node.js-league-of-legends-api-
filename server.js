@@ -13,12 +13,12 @@ app.get('/',function(req,res){
     res.render('index.html');
 })
 /*
-db connection
+db connection*/
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit:10,
-    host:'106.247.228.98',
+    host:'localhost',
     user:'root',
     passowrd:'somyoung',
     database:'nime'
@@ -39,4 +39,4 @@ app.get('/db',function(req,res){
     })
 
 })
-*/
+
