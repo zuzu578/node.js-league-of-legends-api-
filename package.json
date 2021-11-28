@@ -1,7 +1,27 @@
 {
   "dependencies": {
     "ejs": "^3.1.6",
+    "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "multer": "^1.4.3",
     "session-file-store": "^1.5.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "node.js-league-of-legends-api-",
+  "description": "node js 학습을 위해  기존에 spring 으로 만들었던 lol api 검색기능 을 node js 로 구현해보았습니다. # node <img width=\"747\" alt=\"스크린샷 2021-10-04 오후 6 37 48\" src=\"https://user-images.githubusercontent.com/69393030/135828723-2e32dd1d-420a-4a29-9059-5995e9794427.png\">",
+  "version": "1.0.0",
+  "main": "Login.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuzu578/node.js-league-of-legends-api-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zuzu578/node.js-league-of-legends-api-/issues"
+  },
+  "homepage": "https://github.com/zuzu578/node.js-league-of-legends-api-#readme"
 }
