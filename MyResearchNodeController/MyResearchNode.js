@@ -136,14 +136,13 @@ app.get('/goUploadPage',(req,res)=>{
  */
 app.get('/downloadFiles',(req,res)=>{
   try{
-    console.log('fileDownload start!');
+
     let fileName = req.param('fileName');
-    console.log('fileName = > ', fileName);
     filePath = __dirname+'/uploadedFiles/'+fileName;
     res.download(filePath);
-
+    
   }catch(error){
-    console.log('error =>', error);
+    console.log ('error =>', error);
   }
 })
 /**
