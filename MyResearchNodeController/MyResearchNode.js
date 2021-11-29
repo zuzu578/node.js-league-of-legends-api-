@@ -16,23 +16,6 @@ let fs = require('fs');
 let multer  = require('multer');
 // file 저장될 위치 설정
 let upload = multer({ dest: 'uploadedFiles/' }); // 3-1
-// multer storage setting 
-/*
-let storage = multer.diskStorage({ // 2
-    destination(req, file, cb) {
-      cb(null, 'uploadedFiles/');
-    },
-    filename(req, file, cb) {
-      cb(null, `${Date.now()}__${file.originalname}`);
-    },
-  });
-  */
-
-
-// original file name 
-//let uploadWithOriginalFilename = multer({ storage: storage });
-
-
 /**
  * session 사용
  */
@@ -120,12 +103,26 @@ app.listen(portNumber, () => {
 });
 
 /**
+ * file upload 시 multer 부가 설정 을통해 파일을 업로드 할수있습니다.
+ * ex) 원본이름의 파일업로드 , 날짜 등을 파일 업로드시 이름에 부가적으로 설정하여 업로드 가능 
+ */
+let storage  = multer.diskStorage({ // 2
+  destination(req, file, cb) {
+    cb(null, 'uploadedFiles/');
+  },
+  filename(req, file, cb) {
+    cb(null, `${file.originalname}`);
+  },
+});
+let uploadWithOriginalFilename = multer({ storage: storage }); 
+
+/**
  * file upload api 
  */
- app.post('/uploadFile', upload.single('file'), function(req, res){
-    res.send('Uploaded! : '+req.file); // object를 리턴함
-    console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+  app.post('/uploadFile', uploadWithOriginalFilename.single('userFile'), function(req,res){ // 5
+    res.send('파일이 저장되었습니다.');
   });
+  
 /**
  * link to fileUpload page 
  */
@@ -140,11 +137,20 @@ app.get('/goUploadPage',(req,res)=>{
 app.get('/downloadFiles',(req,res)=>{
   try{
     console.log('fileDownload start!');
-    let fileName = 'd3f9d9110b1a707dfc2bed9123fafb2d';
+    let fileName = req.param('fileName');
+    console.log('fileName = > ', fileName);
     filePath = __dirname+'/uploadedFiles/'+fileName;
     res.download(filePath);
 
   }catch(error){
     console.log('error =>', error);
   }
+})
+/**
+ * link to fileDownload page 
+ */
+app.get('/fileDownloadPage',(req,res)=>{
+
+  res.render('test/FileDownload.html');
+
 })
