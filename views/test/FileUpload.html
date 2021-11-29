@@ -7,10 +7,59 @@
     <title>Document</title>
 </head>
 <body>
+   
+
     <form action="uploadFile" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <button type="submit">파일첨부</button>
     </form>
     
+    
 </body>
+<!-- 제이 쿼리를 쓰신다면 이렇게 하셔도됩니다. -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$( document ).ready(function() {
+    $.ajax({
+        url:'/통신할api url ', // 이부분은 통신할 api url 을 입력합니다.
+        type: 'post', //api 요청을 post , get ,delete ,put , update 등을 이용해서 통신할수있습니다. 
+        data: {'data':data, 'type':'addMember'}, // 이부분은 통신할 url 을 보낼때 함께 전달할 파라미터 값을 보내면됩니다.!
+        success : function(data){
+            // 이부분은 비동기통신 (ajax 에 성공했을때 할일입니다. data 는 서버에서 가져온 json데이터 입니다.)
+            console.log(data);
+        }
+    });
+
+});
+
+
+
+</script>
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- 프로미스를 기반으로한 axios 를 사용하신다면 이렇게 해도됩니다. -->
+<script>
+// 순수 자바스크립트로 이용하여 document 가 ready 되면 실행됩니다. 
+document.addEventListener("DOMContentLoaded", async function(){
+    // axios 를 사용하면 프로미스 객체를 리턴합니다. 
+    const fetchData = axios.get('/통신할url을 입력하시면됩니다.',{
+        params:{
+            보낼파라미터 : 파라미터값,
+        }
+    });
+    console.log(fetchData.data); // 비동기통신을 하고나서 받아온데이터는 fetchData.data입니다.
+    
+});
+
+
+
+
+
+</script>
+
 </html>
+
+
+

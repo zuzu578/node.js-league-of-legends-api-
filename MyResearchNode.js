@@ -14,6 +14,8 @@ const portNumber = 3000;
 let fs = require('fs');
 //multer module import 
 let multer  = require('multer');
+// file 저장될 위치 설정
+let upload = multer({ dest: 'uploadedFiles/' }); // 3-1
 // multer storage setting 
 /*
 let storage = multer.diskStorage({ // 2
@@ -26,8 +28,7 @@ let storage = multer.diskStorage({ // 2
   });
   */
 
-// file 저장될 위치 설정
-let upload = multer({ dest: 'uploadedFiles/' }); // 3-1
+
 // original file name 
 //let uploadWithOriginalFilename = multer({ storage: storage });
 
@@ -125,9 +126,25 @@ app.listen(portNumber, () => {
     res.send('Uploaded! : '+req.file); // object를 리턴함
     console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
   });
-
+/**
+ * link to fileUpload page 
+ */
 app.get('/goUploadPage',(req,res)=>{
 
     res.render('test/FileUpload.html');
 
+})
+/** 
+ * fileDownload Api
+ */
+app.get('/downloadFiles',(req,res)=>{
+  try{
+    console.log('fileDownload start!');
+    let fileName = 'd3f9d9110b1a707dfc2bed9123fafb2d';
+    filePath = __dirname+'/uploadedFiles/'+fileName;
+    res.download(filePath);
+
+  }catch(error){
+    console.log('error =>', error);
+  }
 })
