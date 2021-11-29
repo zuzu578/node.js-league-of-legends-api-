@@ -56,3 +56,8 @@ node 서버가 처음으로 시작될때 , 해당 파일 경로가 없는경우 
 # fileUpload Api 
 
 <img width="588" alt="스크린샷 2021-11-28 오후 7 28 32" src="https://user-images.githubusercontent.com/69393030/143764196-9dce0ce2-c404-48af-8615-2a3e009d8bba.png">
+# FileUpload with multer.diskStorage 
+multer.diskStorage 를 이용하여 , 부가적인 설정을 주어 파일을 업로드할수있습니다. 
+예를들어 파일 업로드시 , 원본파일 이름을 붙여서 저장 , 혹은 파일 업로드시 날짜를 붙여서 업로드 
+<img width="771" alt="스크린샷 2021-11-29 오후 7 45 54" src="https://user-images.githubusercontent.com/69393030/143854194-25599caa-44bf-4dcc-a2de-a1819bd0425f.png">
+
